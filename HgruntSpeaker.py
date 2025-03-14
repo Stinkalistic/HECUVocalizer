@@ -1,6 +1,11 @@
 import winsound
 import os
-import wave
+try:
+    import wave
+    wave == "True"
+except ImportError:
+    print("Wave library failed to import, audio downloading not available")
+    wave = False
 
 with open("settings.txt","r") as file:
     settings = file.readlines()
@@ -21,7 +26,7 @@ def main():
             winsound.PlaySound(sound,winsound.SND_ALIAS)
         else:
             print(f"Sound file ",sound.removeprefix("hgrunt//")," does not exist")
-    if download == "yes":
+    if download == "yes" and wave:
         if input("Would you like to download this as an audio file?(Y/N)").lower() == "y":
             with wave.open(soundfiles[0], "rb") as wav:
                 params = wav.getparams()
